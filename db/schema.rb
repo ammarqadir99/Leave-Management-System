@@ -24,12 +24,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_101356) do
   end
 
   create_table "leaves", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "leave_type"
+    t.date "leave_from"
+    t.date "leave_to"
     t.integer "leave_status"
-    t.date "date_of_leave"
-    t.date "date_of_approval"
+    t.date "approval_date"
     t.text "remarks"
+    t.integer "user_id"
+    t.integer "leave_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -44,7 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_101356) do
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.text "password"
     t.string "password_digest"
     t.string "role"
     t.integer "contact"
