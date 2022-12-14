@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  leave_name: MyString
+  paid_unpaid: false
+  days_allowd: 1
+  remarks: MyText
+
+two:
+  leave_name: MyString
+  paid_unpaid: false
+  days_allowd: 1
+  remarks: MyText

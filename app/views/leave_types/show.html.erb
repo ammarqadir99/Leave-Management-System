@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @leave_type %>
+
+<div>
+  <%= link_to "Edit this leave type", edit_leave_type_path(@leave_type) %> |
+  <%= link_to "Back to leave types", leave_types_path %>
+
+  <%= button_to "Destroy this leave type", @leave_type, method: :delete %>
+</div>

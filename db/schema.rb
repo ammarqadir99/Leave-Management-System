@@ -10,13 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_15_140529) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_14_101356) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "leave_types", force: :cascade do |t|
+    t.string "leave_name"
+    t.boolean "paid_unpaid"
+    t.integer "days_allowd"
+    t.text "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "leaves", force: :cascade do |t|
-    t.integer "leave_id"
+    t.integer "user_id"
     t.string "leave_type"
     t.integer "leave_status"
-    t.date "leave_date"
-    t.text "leave_description"
+    t.date "date_of_leave"
+    t.date "date_of_approval"
+    t.text "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "role_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.text "password"
+    t.string "password_digest"
+    t.string "role"
+    t.integer "contact"
+    t.text "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

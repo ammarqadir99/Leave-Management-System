@@ -1,0 +1,2 @@
+class LeaveType < ApplicationRecord
+end
