@@ -1,0 +1,23 @@
+# development:
+#   <<: *default
+#   database: db/development.sqlite3
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: pseudo_local_db
+  host: localhost
+  port: 5432
+  username: root
+  password: root
+
+# test:
+#   <<: *default
+#   database: pseudo_local_db_test
+#   username: root
+#   password: root

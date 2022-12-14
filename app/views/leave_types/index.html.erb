@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Leave types</h1>
+
+<div id="leave_types">
+  <% @leave_types.each do |leave_type| %>
+    <%= render leave_type %>
+    <p>
+      <%= link_to "Show this leave type", leave_type %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New leave type", new_leave_type_path %>
