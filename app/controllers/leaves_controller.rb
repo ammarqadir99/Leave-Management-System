@@ -1,71 +1,79 @@
 class LeavesController < ApplicationController
-  def leaves
-  end
-  # GET /leaves
+  #protect_from_forgery with: :null_session
+  
   def index
-    @users = User.all
-  end
-  # GET /leaves/new
-  def new
-    @user = User.new
+    @leaves = Leave.all
+    render json: @leaves
   end
 
-  # GET /leaves/1/edit
-  def edit
-  end
-  
-  def retrive
-  end  
-  
-  # GET /leaves/1 or /useleavesrs/1.json
   def show
+    @leave = Leave.where(id: params[:id])
+    if @leave.nil?
+      render json: { error: "Leave not found" }
+    else
+      render json: @leave
+    end
   end
 
-  # POST /leaves or /leaves.json
+  def new
+    @leave = Leave.new
+  end
+  
   def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    @leave = Leave.new(leave_params)
+    if @leave.save
+      redirect_to leave_url(@leave), notice: 'Leave was successfully created.'
+      #render json:@leave, status: :created, location: @leave }
+    else
+      # render :new, status: :unprocessable_entity }
+      render json: @leave.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    @leave = Leave.find(params[:id])
+    if @leave.update(leave_params)
+      redirect_to leave_url(@leave), notice: 'User was successfully updated.'
+      #render json:@leave, status: :ok, location: @leave
+    else
+      # render :edit, status: :unprocessable_entity }
+      render json: @leave.errors, status: :unprocessable_entity
     end
   end
-
-  # DELETE /users/1 or /users/1.json
+  
   def destroy
-    @user.destroy
+    @leave = Leave.find(params[:id])
+    @leave.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
+      # redirect_to leave_index_url, notice: "User was successfully destroyed." }
+      format.json { redirect_to leave_index_url, status: :ok, location: @leave }
     end
   end
 
+  def my_leaves
+    @user = User.second
+    @leaves = Leave.all.where('user_id = ?', @user.id)
+    @yearly_leaves = @leaves.where('created_at >=? ', Time.now.beginning_of_year )
+
+    if leave_params[:leave_name] == 'sick'
+      @leave_type = LeaveType.find_by(:leave_name => leave_params.leave_name)
+      
+      @sick_leaves = @yearly_leaves.where( 'leave_types_id =?', @leave_type )
+      render json: @sick_leaves, status: :ok, location: @sick_leaves
+
+    @leaves_by_month =@yearly_leaves.group_by { |t| t.created_at.strftime("%B %Y")}
+    
+    render json: @leaves_by
+  end
+  
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
+    def set_leave(id)
+      @leave = Leave.find_by(id)
     end
 
     # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:name, :email)
+    def leave_params
+      params.require(:leave).permit(:leave_from, :leave_to, :remarks, :user_id, :leave_types_id, :leave_name)
     end
+  end

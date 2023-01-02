@@ -1,19 +1,17 @@
 Rails.application.routes.draw do
-  resources :roles
-  resources :leave_types
-  resource :users, only: [:index, :create, :update, :destroy]
-  resources :leaves, only: [:create, :index, :update, :destroy]
-
-  post "/login", to: "users#login"
-  get "/auto_login", to: "users#auto_login"
+  # resources :users do
+  #   resources :leaves, only: [:index, :show, :create, :update, :destroy]
+  # end
+  resources :users, only: [:index, :show, :create, :update, :destroy]
+  resources :leaves, only: [:index, :show, :new, :create, :update, :destroy], as: 'leave'
   
-  #post "/users", to: "users#create"
-  # get "/leaves", to: "leaves#index"
+  get '/myleaves', to: "leaves#my_leaves"
   # get "/users", to: "users#index"
+  resources :holidays, only: [:index, :edit, :show, :create, :update, :destroy]
+  get 'comming_holidays', to: "holidays#get_next_year_holidays"
+
 
   get 'home/index'
-
-
   root "home#index"
 end
 

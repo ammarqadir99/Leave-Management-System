@@ -5,20 +5,10 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-user = User.create(first_name: "ammar", last_name: "qadir", email:"ammar@pseudosquare", password_digest:"pass", role:"admin", contact:3099010721 , image:"text_image-url")
-user = User.create(first_name: 'Alex', last_name: 'finix', email:'pseudo@lms', password_digest:'password', role:"employee", contact:12345678912 ,image:"image-url")
-user = User.create(first_name: 'Alex', last_name: 'finix', email:'pseudo@lms', password_digest:'password', role:"admin", contact:12345678912 ,image:"image-url")
-user = User.create(first_name: 'Alex', last_name: 'finix', email:'pseudo@lms', password_digest:'password', role:"admin", contact:12345678912 ,image:"image-url")
+user = User.create(first_name: "ammar", last_name: "qadir", username: 'ammarqadir99', email:"ammar@pseudosquare", password:"pass", contact:3099010721 , image:"image-url", role_id:'employee')
+user = User.create(first_name: 'Alex', last_name: 'finix', username: 'alexfinix01', email:'pseudo@pseudosquare', password:'password',  contact:12345678901 ,image:"image-url", role_id:'employee')
+user = User.create(first_name: 'Alex', last_name: 'finix', username: 'alexfinix02', email:'pseudo@pseudosquare', password:'password', contact:12345678901 ,image:"image-url", role_id:'employee')
+user = User.create(first_name: 'Alex', last_name: 'finix', username: 'alexfinix03', email:'pseudo@pseudosquare', password:'password', contact:12345678901 ,image:"image-url", role_id:'employee')
 
-leave =Leave.create(leave_from:"2022-12-14 ", leave_to:"2022-12-16 ", leave_status:"pending", approval_date:"", remarks:"waiting for approval", user_id:"1", leave_type:"sick")
-# create_table :users do |t|
-#     t.string :first_name
-#     t.string :last_name
-#    #t.string :username
-#     t.string :email
-#    #t.text :password
-#     t.string :password_digest
-#     t.string :role
-#     t.integer :contact
-#     t.text :image  
-#     t.timestamps
+leave =Leave.create(leave_from:"2022-12-14 ", leave_to:"2022-12-16 ", leave_status:"pending", approval_date:"", remarks:"waiting for approval", user_id:"1", leave_types_id:"1")
+leave =Leave.create(leave_from:"2022-12-14 ", leave_to:"2022-12-16 ", leave_status:"pending", approval_date:"", remarks:"for sick leave", user_id:"1", leave_types_id:"2")
