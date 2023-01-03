@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/myleaves', to: "leaves#my_leaves"
   # get "/users", to: "users#index"
   resources :holidays, only: [:index, :edit, :show, :create, :update, :destroy]
-  get 'comming_holidays', to: "holidays#get_next_year_holidays"
+  get 'public_holidays', to: "holidays#get_next_year_holidays"
 
 
   get 'home/index'

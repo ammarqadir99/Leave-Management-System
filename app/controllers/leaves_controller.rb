@@ -52,19 +52,23 @@ class LeavesController < ApplicationController
   end
 
   def my_leaves
-    @user = User.second
-    @leaves = Leave.all.where('user_id = ?', @user.id)
-    @yearly_leaves = @leaves.where('created_at >=? ', Time.now.beginning_of_year )
+    # @user = User.find( current_user.id )
+    @leaves = Leave.all.where('user_id = ?', leave_params[:user_id]).where('created_at >=? ', Time.now.beginning_of_year )
 
     if leave_params[:leave_name] == 'sick'
-      @leave_type = LeaveType.find_by(:leave_name => leave_params.leave_name)
+      @leave_type = LeaveType.find_by(:leave_name => leave_params[:leave_name])
+      @leaves_by = @leaves.where( 'leave_types_id =?', @leave_type.id )
       
-      @sick_leaves = @yearly_leaves.where( 'leave_types_id =?', @leave_type )
-      render json: @sick_leaves, status: :ok, location: @sick_leaves
+    elsif leave_params[:leave_name] == 'casual'
+      @leave_type = LeaveType.find_by(:leave_name => leave_params[:leave_name])      
+      @leaves_by = @leaves.where( 'leave_types_id =?', @leave_type.id )
 
-    @leaves_by_month =@yearly_leaves.group_by { |t| t.created_at.strftime("%B %Y")}
-    
-    render json: @leaves_by
+    else #params[:leave_name] == 'none'
+      @leaves_by = @leaves
+    end
+
+    @leaves_by_month =@leaves_by.group_by { |t| t.created_at.strftime("%B %Y")}
+    render json: @leaves_by_month
   end
   
   private
@@ -74,6 +78,6 @@ class LeavesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def leave_params
-      params.require(:leave).permit(:leave_from, :leave_to, :remarks, :user_id, :leave_types_id, :leave_name)
+      params.require(:leave).permit(:leave_name, :leave_from, :leave_to, :remarks, :user_id, :leave_types_id)
     end
   end
